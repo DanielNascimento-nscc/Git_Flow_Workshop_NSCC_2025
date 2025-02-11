@@ -1,0 +1,44 @@
+name: Verify Unity License
+
+on: workflow_dispatch
+
+jobs:
+  verify-license:
+    name: Verify license
+    runs-on: ubuntu-latest
+    steps:
+        - name: Activate license
+          uses: game-ci/unity-activate@v2.0.0
+          env:
+            UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+            UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+            UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        - name: Return license
+          uses: game-ci/unity-return-license@v2.0.0
+          if: always()
+
+# name: Unity - Activate
+
+# on:
+#   pull_request: {}
+#   push: { branches: [main] }
+# env:
+#   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+#   UNITY_VERSION: ${{ vars.UNITY_VERSION }}
+
+# jobs:
+#   requestActivation:
+#     name: Activate ${{ matrix.unityVersion }} ✔
+#     runs-on: ubuntu-latest
+#     strategy:
+#       fail-fast: false 
+#     steps:
+#       # Checkout repository (required to test local actions)
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       # Activate Unity
+#       - name: Activate Unity
+#         uses: ./
+#         with:
+#           unityVersion: ${{ vars.UNITY_VERSION }}
